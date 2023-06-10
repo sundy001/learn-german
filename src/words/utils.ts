@@ -54,10 +54,12 @@ export const getNumber = (number: number) => {
     const postfix = firstDigit === 6 || firstDigit === 7 ? "-" : "";
     return `${NUMBERS[firstDigit + postfix]}zehn`;
   } else {
-    const postfix = secondDigit === 6 || secondDigit === 7 ? "-" : "";
+    const postfix =
+      secondDigit === 2 || secondDigit === 6 || secondDigit === 7 ? "-" : "";
     const secondDigitPart = NUMBERS[secondDigit + postfix] + NUMBERS["0-"];
     if (firstDigit !== 0) {
-      return `${NUMBERS[firstDigit]}und${secondDigitPart}`;
+      const prefix = firstDigit === 1 ? "-" : "";
+      return `${NUMBERS[prefix + firstDigit]}und${secondDigitPart}`;
     } else {
       return secondDigitPart;
     }

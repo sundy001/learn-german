@@ -14,6 +14,8 @@ export const NUMBERS: Record<string, string> = {
   12: "zwölf",
   "30-": "ßig",
   "0-": "zig",
+  "-1": "ein",
+  "2-": "zwan",
   "6-": "sech",
   "7-": "sieb",
 };

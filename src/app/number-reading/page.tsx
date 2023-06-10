@@ -4,7 +4,6 @@ import classNames from "classnames";
 import { FormEventHandler, useEffect, useState } from "react";
 
 import { TextInput, TextInputColor } from "@/components/TextInput";
-import { textToSpeech } from "@/features/textToSpeech";
 import { Number } from "@/types";
 import { getRandomNumber } from "@/words";
 
@@ -19,12 +18,15 @@ export default function NumberReading() {
   const nextQuestion = () => {
     const number = getRandomNumber();
     setQuestionNumber(number);
-    textToSpeech(number.word);
   };
 
   useEffect(() => {
     nextQuestion();
   }, []);
+
+  if (!questionNumber) {
+    return null;
+  }
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
@@ -46,27 +48,16 @@ export default function NumberReading() {
     }
   };
 
-  if (!questionNumber) {
-    return null;
-  }
-
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <h1 className="mb-4 text-xl">Article in Sentence</h1>
+        <h1 className="mb-4 text-xl">Number Reading</h1>
         <div
           className={classNames("box p-4", {
             "animate-green-offset": textInputColor === TextInputColor.Green,
           })}
         >
-          <button
-            type="button"
-            onClick={() => {
-              textToSpeech(questionNumber.word);
-            }}
-          >
-            play
-          </button>
+          <div>{questionNumber.word}</div>
           <TextInput
             errorMessageLine={false}
             color={textInputColor}
