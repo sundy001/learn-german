@@ -22,7 +22,7 @@ const DefiniteWords = {
 export const ArticleGenderTable = ({ gender, highlight }: Props) => {
   return (
     <div>
-      <h3 className="text-left mb-1">{gender}</h3>
+      <h3 className="mb-1 text-left">{gender}</h3>
       <table
         className={cn(
           "rounded border-hidden shadow-none shadow-slate-300",
@@ -60,7 +60,7 @@ export const ArticleGenderTable = ({ gender, highlight }: Props) => {
                   className={cn("p-3", {
                     ["bg-yellow-50"]: highlight?.article === articleType,
                     ["bg-red-50"]: highlight?.theCase === theCase,
-                    ["font-bold bg-green-50"]:
+                    ["bg-green-50 font-bold"]:
                       highlight?.theCase === theCase &&
                       highlight?.article === articleType,
                   })}

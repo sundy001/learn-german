@@ -52,7 +52,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
       <div className={cx("relative mt-3", className)}>
         <input
           className={cx(
-            "peer input inputBorder rounded py-2 px-3 disabled:border-0 disabled:bg-gray-200",
+            "input inputBorder peer rounded px-3 py-2 disabled:border-0 disabled:bg-gray-200",
             {
               labelAlwaysOnTop,
               "border-red-500 focus:outline-red-500":
@@ -70,7 +70,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
         {label && (
           <label
             className={cx(
-              "absolute px-1 text-gray-500 top-2 left-3 bg-white transition duration-100 origin-left",
+              "absolute left-3 top-2 origin-left bg-white px-1 text-gray-500 transition duration-100",
               {
                 "peer-focus:text-red-500":
                   !!errorMessage || color === TextInputColor.Red,

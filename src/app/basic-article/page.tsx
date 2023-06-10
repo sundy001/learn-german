@@ -41,7 +41,7 @@ export default function BasicArticle() {
 
   return (
     <main className={"__tw_text-blue __tw_text-red __tw_text-gray"}>
-      <div className="box mb-4 p-4 flex gap-3">
+      <div className="box mb-4 flex gap-3 p-4">
         <Checkbox
           label="Gender Color"
           checked={useGenderColor}

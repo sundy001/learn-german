@@ -53,7 +53,7 @@ export default function NumberListening() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <h1 className="text-xl mb-4">Article in Sentence</h1>
+        <h1 className="mb-4 text-xl">Article in Sentence</h1>
         <div
           className={classNames("box p-4", {
             "animate-green-offset": textInputColor === TextInputColor.Green,

@@ -1,2 +1,8 @@
+# ignore package.json
+package.json
+
 # ignore lockfile
 pnpm-lock.yaml
+
+# ignore build files
+.next
