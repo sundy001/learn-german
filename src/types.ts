@@ -31,36 +31,57 @@ export enum Level {
   B2 = "B2",
 }
 
+export type Word = { word: string; tags: string[] };
+
+export enum PronounsType {
+  ich = "ich",
+  du = "du",
+  er = "er",
+  wir = "wir",
+  ihr = "ihr",
+  Sie = "Sie",
+}
+
+export type Pronoun = Word & {
+  type: PronounsType;
+};
+
 export enum VerbType {
   Transitive = "Transitive",
   Intransitive = "Intransitive",
   Reflexive = "Reflexive",
 }
 
-export type Verb = {
-  word: string;
+export type Verb = Word & {
   verbType: VerbType[];
-  conjugation: ConjugationType;
   level: Level;
-  tags: string[];
+  conjugation: {
+    type: ConjugationType;
+    present?: {
+      [PronounsType.ich]?: string;
+      [PronounsType.du]?: string;
+      [PronounsType.er]?: string;
+      [PronounsType.wir]?: string;
+      [PronounsType.ihr]?: string;
+      [PronounsType.Sie]?: string;
+    };
+  };
 };
 
-export type Article = {
-  word: string;
+export type Article = Word & {
   type: ArticleType;
   case: Case;
   gender: Gender;
 };
 
-export type Noun = {
-  word: string;
+export type Noun = Word & {
   gender: Gender;
   plural: string | null;
   postfix: string | null;
-  tags: string[];
 };
 
-export type Number = {
-  word: string;
+export type Adjective = Word;
+
+export type Number = Word & {
   number: number;
 };

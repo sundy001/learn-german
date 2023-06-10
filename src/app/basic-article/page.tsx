@@ -7,7 +7,7 @@ import { ArticleGenderTable } from "@/components/ArticleTable";
 import { Checkbox } from "@/components/Checkbox";
 import { Noun } from "@/components/Noun";
 import { TextInput } from "@/components/TextInput";
-import { ARTICLE_WORDS_MAP } from "@/words";
+import { ARTICLE_WORDS_MAP } from "@/features/words";
 
 import { useQuestion } from "../useQuestion";
 

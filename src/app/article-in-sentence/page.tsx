@@ -5,8 +5,10 @@ import { FormEventHandler, useState } from "react";
 
 import { Noun } from "@/components/Noun";
 import { TextInput, TextInputColor } from "@/components/TextInput";
+import { parseSentence } from "@/features/sentence";
+import { SENTENCES_TEMPLATES } from "@/features/sentence/Sentence";
+import { ARTICLE_WORDS_MAP } from "@/features/words";
 import { Case } from "@/types";
-import { ARTICLE_WORDS_MAP, getNumber } from "@/words";
 
 import { useQuestion } from "../useQuestion";
 
@@ -20,6 +22,13 @@ export default function ArticleInSentence() {
     nounTag: ["animal"],
     targetCase: Case.Nominativ,
   });
+
+  const sentence = parseSentence({
+    sentence: SENTENCES_TEMPLATES[3].sentence,
+    tags: [],
+  });
+
+  console.debug(sentence);
 
   if (!question) {
     return null;
@@ -57,20 +66,7 @@ export default function ArticleInSentence() {
           })}
         >
           <div>{ARTICLE_WORDS_MAP[articleType]}</div>
-          ______ <Noun noun={noun} /> is schön.
-          <div>{getNumber(62)}</div>
-          <button
-            type="button"
-            onClick={() => {
-              var msg = new SpeechSynthesisUtterance();
-              msg.volume = 1;
-              msg.text = "Guten Morgen";
-              msg.lang = "de-DE";
-              speechSynthesis.speak(msg);
-            }}
-          >
-            play
-          </button>
+          ______ <Noun noun={noun} /> ist schön.
           <TextInput
             errorMessageLine={false}
             color={textInputColor}

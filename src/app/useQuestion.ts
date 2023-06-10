@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { ArticleType, Case, Noun } from "@/types";
 import {
   findArticleFrom,
   getRandomArticleType,
   getRandomCase,
   getRandomNoun,
-} from "@/words";
+} from "@/features/words";
+import { ArticleType, Case, Noun } from "@/types";
 
 export const useQuestion = (options?: {
   nounTag?: string[] | string;

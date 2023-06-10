@@ -5,8 +5,8 @@ import { FormEventHandler, useEffect, useState } from "react";
 
 import { TextInput, TextInputColor } from "@/components/TextInput";
 import { textToSpeech } from "@/features/textToSpeech";
+import { getRandomNumber } from "@/features/words";
 import { Number } from "@/types";
-import { getRandomNumber } from "@/words";
 
 export default function NumberListening() {
   const [input, setInput] = useState("");

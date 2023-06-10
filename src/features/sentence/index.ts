@@ -1,0 +1,1 @@
+export { parseSentence } from "./parseSentence";

@@ -19,6 +19,9 @@ export const NOUNS: Noun[] = [
   
   { word: "Tochter", gender: Gender.Feminine, plural: "Töchter", postfix: null, tags: ['relative'] },
   { word: "Bruder", gender: Gender.Masculine, plural: "", postfix: null, tags: ['relative'] },
+  { word: "Muter", gender: Gender.Feminine, plural: "", postfix: null, tags: ['relative'] },
+  { word: "Vater", gender: Gender.Masculine, plural: "", postfix: null, tags: ['relative'] },
+  { word: "Schwester", gender: Gender.Feminine, plural: "", postfix: null, tags: ['relative'] },
 
   { word: "Haus", gender: Gender.Neutral, plural: "Hauser", postfix: null, tags: ['place'] },
   { word: "Kaufhaus", gender: Gender.Neutral, plural: "", postfix: null, tags: ['place'] },

@@ -1,34 +1,6 @@
-import { ArticleType, Case, Gender, Number } from "@/types";
-import { getRandomEnum } from "@/util/getRandomEnum";
+import { Number } from "@/types";
 
-import { ARTICLES } from "./Articles";
-import { NOUNS } from "./Nouns";
-import { NUMBERS } from "./Number";
-
-export const getRandomCase = () => getRandomEnum(Case);
-
-export const getRandomArticleType = () => getRandomEnum(ArticleType);
-
-export const findArticleFrom = (
-  article: ArticleType,
-  theCase: Case,
-  theGender: Gender
-) => {
-  return ARTICLES.find(
-    ({ type, case: articleCase, gender }) =>
-      article === type && theCase === articleCase && theGender === gender
-  );
-};
-
-export const getNouns = (tag: string[] | string) => {
-  const tagSet = new Set(typeof tag === "string" ? [tag] : tag);
-  return NOUNS.filter(({ tags }) => tags.some((tag) => tagSet.has(tag)));
-};
-
-export const getRandomNoun = (tag?: string[] | string) => {
-  const nouns = tag === undefined ? NOUNS : getNouns(tag);
-  return nouns[Math.floor(Math.random() * nouns.length)];
-};
+import { NUMBERS } from "./cosntants/Numbers";
 
 export const getRandomNumber = () => {
   const number = Math.floor(Math.random() * 100);

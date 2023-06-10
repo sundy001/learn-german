@@ -1,7 +1,11 @@
 import cn from "classnames";
 
+import {
+  ARTICLE_WORDS_MAP,
+  CASES_NAMES,
+  findArticleFrom,
+} from "@/features/words";
 import { ArticleType, Case, Gender } from "@/types";
-import { ARTICLE_WORDS_MAP, CASES_NAMES, findArticleFrom } from "@/words";
 
 import styles from "./ArticleGenderTable.module.css";
 
