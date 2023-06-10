@@ -19,12 +19,14 @@ export const getRandomCase = () => getRandomEnum(Case);
 export const getRandomArticleType = () => getRandomEnum(ArticleType);
 
 export const findArticleFrom = (
-  article: ArticleType,
+  article: ArticleType | ArticleType[],
   theCase: Case,
   theGender: Gender
 ) => {
+  const types = Array.isArray(article) ? article : [article];
+
   return ARTICLES.find(
     ({ type, case: articleCase, gender }) =>
-      article === type && theCase === articleCase && theGender === gender
+      types.includes(type) && theCase === articleCase && theGender === gender
   );
 };

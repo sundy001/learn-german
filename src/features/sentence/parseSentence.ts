@@ -60,7 +60,9 @@ export const parseSentence = (sentence: SentenceTemplate) => {
       );
 
       const article = findArticleFrom(
-        ArticleType.Definite,
+        keyword.articleTypes
+          ? keyword.articleTypes
+          : [ArticleType.Definite, ArticleType.Indefinite],
         keyword.case,
         nounKeyword.word!.gender
       );

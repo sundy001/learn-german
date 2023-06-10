@@ -57,7 +57,6 @@ const getExtraProps = (type: KeywordType, modifiers: string[]) => {
   let extraProps = {};
 
   modifiers.forEach((modifier) => {
-    console.debug(modifier, MODIFIER_PARSERS[type]);
     let isParsed = false;
 
     if (!MODIFIER_PARSERS[type]) {
@@ -69,7 +68,7 @@ const getExtraProps = (type: KeywordType, modifiers: string[]) => {
 
       if (props && Object.keys(props).length > 0) {
         isParsed = true;
-        extraProps = { extraProps, ...props };
+        extraProps = { ...extraProps, ...props };
         break;
       }
     }

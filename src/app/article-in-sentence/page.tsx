@@ -24,7 +24,7 @@ export default function ArticleInSentence() {
   });
 
   const sentence = parseSentence({
-    sentence: SENTENCES_TEMPLATES[3].sentence,
+    sentence: SENTENCES_TEMPLATES[2].sentence,
     tags: [],
   });
 

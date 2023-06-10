@@ -1,8 +1,9 @@
-import { Case } from "@/types";
+import { ArticleType, Case } from "@/types";
 
+import { Token } from "./type";
 import { isInteger } from "./util";
 
-type ModifierParser = (modifier: string) => Record<string, unknown> | undefined;
+type ModifierParser = (modifier: string) => Partial<Token> | undefined;
 
 const CASE_MAP: Record<string, Case> = {
   nom: Case.Nominativ,
@@ -46,6 +47,30 @@ const articleRelatedNounParser: ModifierParser = (modifier) => {
   };
 };
 
+const ARTICLE_TYPE_MAP: Record<string, ArticleType> = {
+  def: ArticleType.Definite,
+  ind: ArticleType.Indefinite,
+  neg: ArticleType.Negative,
+  dem: ArticleType.Demonstrative,
+};
+
+export const articleTypeParser: ModifierParser = (modifier) => {
+  const properties = parseWordModifier("limit", modifier);
+  if (!properties) {
+    return;
+  }
+
+  properties.forEach((property) => {
+    if (!["def", "ind", "neg", "dem"].includes(property)) {
+      throw new Error(`Invalid article type: ${property}`);
+    }
+  });
+
+  return {
+    articleTypes: properties.map((property) => ARTICLE_TYPE_MAP[property]),
+  };
+};
+
 const verbRelatedNounParser: ModifierParser = (modifier) => {
   const properties = parseWordModifier("link", modifier);
   if (!properties) {
@@ -64,6 +89,6 @@ const verbRelatedNounParser: ModifierParser = (modifier) => {
 };
 
 export const MODIFIER_PARSERS: Record<string, ModifierParser[]> = {
-  article: [articleRelatedNounParser],
+  article: [articleRelatedNounParser, articleTypeParser],
   verb: [verbRelatedNounParser],
 };

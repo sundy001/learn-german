@@ -1,4 +1,13 @@
-import { Adjective, Article, Case, Noun, Pronoun, Verb, Word } from "@/types";
+import {
+  Adjective,
+  Article,
+  ArticleType,
+  Case,
+  Noun,
+  Pronoun,
+  Verb,
+  Word,
+} from "@/types";
 
 export type SentenceTemplate = {
   sentence: string;
@@ -21,6 +30,7 @@ export type ArticleToken = BaseToken & {
   type: "article";
   word?: Article;
   case: Case;
+  articleTypes?: ArticleType[];
   relatedNounIndex: number;
 };
 
