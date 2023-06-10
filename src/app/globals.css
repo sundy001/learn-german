@@ -2,26 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --container-max-width: 1024px;
+    --bg-base: #f7f7f9;
+    --bg-container: theme(colors.white);
+  }
+
+  html {
+    font-size: 14px;
+    background: var(--bg-base);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer components {
+  .btn-primary {
+    @apply bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 cursor-pointer;
+  }
+  .btn-secondary {
+    @apply border border-blue-500 bg-white text-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 active:text-white cursor-pointer;
+  }
+  .btn-tertiary {
+    @apply bg-gray-100 hover:bg-gray-500 hover:text-white active:bg-gray-600 active:text-white;
+  }
+  .btn-white {
+    @apply bg-white hover:bg-gray-500 hover:text-white active:bg-gray-600 active:text-white;
+  }
+  .btn-link {
+    @apply bg-white hover:bg-gray-100 active:bg-gray-200;
+  }
+  .btn-m {
+    @apply pt-2 pb-2 pl-5 pr-5;
+  }
+  .btn-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+  .link {
+    @apply text-blue-600 hover:text-blue-800;
+  }
+
+  .inputBorder {
+    @apply border border-gray-400;
+  }
+
+  .tag {
+    @apply inline-block whitespace-nowrap px-3 py-1 rounded-full;
+  }
+
+  .form-x {
+    @apply max-w-xl mx-auto px-4;
+  }
+
+  .header-link {
+    @apply cursor-pointer p-2 flex items-center hover:text-[#38CBC3] border-b-2 border-transparent hover:border-[#38CBC3];
+  }
+
+  .errorMessage {
+    @apply min-h-[1.25rem] mt-1 text-sm text-red-500;
+  }
+
+  .labelAlwaysOnTop + label,
+  .input:focus + label,
+  .input:not(:placeholder-shown) + label {
+    transform: translate(-0.2rem, -1.3rem) scale(0.8);
+  }
+
+  .input:focus + label {
+    color: rgb(37 99 235 / var(--tw-bg-opacity));
+  }
+}
+
+@layer utilities {
+  .p-container {
+    padding: theme(spacing.5);
+  }
+
+  .box {
+    border-radius: theme(borderRadius.lg);
+    background: var(--bg-container);
+  }
 }

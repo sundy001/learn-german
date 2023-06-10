@@ -1,0 +1,1 @@
+export { Noun } from "./Noun";
