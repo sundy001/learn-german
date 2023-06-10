@@ -1,6 +1,7 @@
+import cn from "classnames";
+
 import { ArticleType, Case, Gender } from "@/types";
 import { ARTICLE_WORDS_MAP, CASES_NAMES, findArticleFrom } from "@/words";
-import cn from "classnames";
 
 import styles from "./ArticleGenderTable.module.css";
 

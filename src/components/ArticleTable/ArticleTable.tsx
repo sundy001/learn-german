@@ -1,4 +1,5 @@
 import { ArticleType, Case, Gender } from "@/types";
+
 import { ArticleGenderTable } from "./ArticleGenderTable";
 
 type Props = {

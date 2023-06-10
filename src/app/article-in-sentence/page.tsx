@@ -1,12 +1,14 @@
 "use client";
 
-import { TextInput, TextInputColor } from "@/components/TextInput";
-import { FormEventHandler, useState } from "react";
-import { useQuestion } from "../useQuestion";
-import { ARTICLE_WORDS_MAP, getNumber } from "@/words";
-import { Case } from "@/types";
-import { Noun } from "@/components/Noun";
 import classNames from "classnames";
+import { FormEventHandler, useState } from "react";
+
+import { Noun } from "@/components/Noun";
+import { TextInput, TextInputColor } from "@/components/TextInput";
+import { Case } from "@/types";
+import { ARTICLE_WORDS_MAP, getNumber } from "@/words";
+
+import { useQuestion } from "../useQuestion";
 
 export default function ArticleInSentence() {
   const [input, setInput] = useState("");

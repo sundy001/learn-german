@@ -1,15 +1,15 @@
 "use client";
 
+import cn from "classnames";
 import { FormEventHandler, useState } from "react";
-import { ARTICLE_WORDS_MAP } from "@/words";
-import { Checkbox } from "@/components/Checkbox";
+
 import { ArticleGenderTable } from "@/components/ArticleTable";
+import { Checkbox } from "@/components/Checkbox";
+import { Noun } from "@/components/Noun";
 import { TextInput } from "@/components/TextInput";
+import { ARTICLE_WORDS_MAP } from "@/words";
 
 import { useQuestion } from "../useQuestion";
-
-import cn from "classnames";
-import { Noun } from "@/components/Noun";
 
 export default function BasicArticle() {
   const question = useQuestion();

@@ -1,5 +1,6 @@
-import { Gender, Noun as NounType } from "@/types";
 import classNames from "classnames";
+
+import { Gender, Noun as NounType } from "@/types";
 
 type Props = {
   noun: NounType;

@@ -1,7 +1,8 @@
 import { ArticleType, Case, Gender, Number } from "@/types";
 import { getRandomEnum } from "@/util/getRandomEnum";
-import { NOUNS } from "./Nouns";
+
 import { ARTICLES } from "./Articles";
+import { NOUNS } from "./Nouns";
 import { NUMBERS } from "./Number";
 
 export const getRandomCase = () => getRandomEnum(Case);

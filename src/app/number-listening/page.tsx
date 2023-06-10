@@ -1,11 +1,12 @@
 "use client";
 
-import { FormEventHandler, useEffect, useState } from "react";
 import classNames from "classnames";
+import { FormEventHandler, useEffect, useState } from "react";
+
 import { TextInput, TextInputColor } from "@/components/TextInput";
-import { getRandomNumber } from "@/words";
 import { textToSpeech } from "@/features/textToSpeech";
 import { Number } from "@/types";
+import { getRandomNumber } from "@/words";
 
 export default function NumberListening() {
   const [input, setInput] = useState("");
