@@ -1,11 +1,11 @@
 import { Number } from "@/types";
 
-import { NUMBERS } from "./cosntants/Numbers";
+import { NUMBERS } from "./constants/Numbers";
 
 export const getRandomNumber = () => {
   const number = Math.floor(Math.random() * 100);
   const numberString = getNumber(number);
-  return { word: numberString, number } as Number;
+  return { spell: numberString, number } as Number;
 };
 
 export const getNumber = (number: number) => {

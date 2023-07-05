@@ -69,7 +69,7 @@ export const ArticleGenderTable = ({ gender, highlight }: Props) => {
                       highlight?.article === articleType,
                   })}
                 >
-                  {findArticleFrom(articleType, theCase, gender)?.word}
+                  {findArticleFrom(articleType, theCase, gender)?.spell}
                 </td>
               ))}
             </tr>

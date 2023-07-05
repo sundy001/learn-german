@@ -19,7 +19,7 @@ export default function NumberListening() {
   const nextQuestion = () => {
     const number = getRandomNumber();
     setQuestionNumber(number);
-    textToSpeech(number.word);
+    textToSpeech(number.spell);
   };
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function NumberListening() {
           <button
             type="button"
             onClick={() => {
-              textToSpeech(questionNumber.word);
+              textToSpeech(questionNumber.spell);
             }}
           >
             play

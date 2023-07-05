@@ -1,18 +1,25 @@
-import { Word } from "@/types";
+import { BaseWord } from "@/types";
 
 import { findAdjective, findNoun, findVerb } from "../words";
 import { MODIFIER_PARSERS } from "./modifierParsers";
 import { KeywordType, Token } from "./type";
 import { isInteger } from "./util";
 
-const VALID_TOKEN_REGEX = /^(~[a-zA-Z\d]|\*[a-zäöä]|\!).+$/;
+const VALID_TOKEN_REGEX = /^(~[a-zA-Z\d]|\*[a-zA-Zäöä]|\!).+|q$/;
 
 const isKeywordType = (type: string): type is KeywordType => {
-  const keywordTypes = ["article", "noun", "adj", "pronoun", "verb"];
+  const keywordTypes = [
+    "article",
+    "noun",
+    "adj",
+    "pronoun",
+    "verb",
+    "preposition",
+  ];
   return keywordTypes.includes(type);
 };
 
-const TYPE_FINDERS: Record<string, (word: string) => Word> = {
+const TYPE_FINDERS: Record<string, (word: string) => BaseWord> = {
   verb: findVerb,
   noun: findNoun,
   ajd: findAdjective,
@@ -23,8 +30,9 @@ const breakdownCommonModifiers = (
   type: KeywordType,
   rawModifiers: string[]
 ) => {
-  let word: Word | undefined;
+  let word: BaseWord | undefined;
   let tags: string[] = [];
+  let questionable = false;
   const modifiers = rawModifiers.filter((modifier) => {
     if (!VALID_TOKEN_REGEX.test(modifier)) {
       throw new Error(`Invalid modifier: ${modifier}`);
@@ -43,6 +51,8 @@ const breakdownCommonModifiers = (
       if (!word) {
         throw new Error(`Invalid word: ${cleanModifier}`);
       }
+    } else if (modifier === "q") {
+      questionable = true;
     } else {
       return true;
     }
@@ -50,7 +60,7 @@ const breakdownCommonModifiers = (
     return false;
   });
 
-  return { word, tags, modifiers };
+  return { word, tags, questionable, modifiers };
 };
 
 const getExtraProps = (type: KeywordType, modifiers: string[]) => {
@@ -82,11 +92,11 @@ const getExtraProps = (type: KeywordType, modifiers: string[]) => {
 };
 
 export const tokenizeSentence = (sentence: string) => {
-  const stringTokens = sentence.split(" ");
+  const stringTokens = sentence.matchAll(/(\([^)]*\)|[a-zA-Zäöü]+|{[^}]*})/g);
   const tokens: Token[] = [];
   const tokenMap = new Map<number, Token>();
 
-  stringTokens.forEach((stringToken, index) => {
+  Array.from(stringTokens).forEach(([stringToken], index) => {
     let token: Token;
     const matches = stringToken.match(/^{([^}]+)}$/);
     if (matches) {
@@ -100,7 +110,7 @@ export const tokenizeSentence = (sentence: string) => {
       }
 
       const id = parseInt(idString);
-      const { word, tags, modifiers } = breakdownCommonModifiers(
+      const { word, tags, questionable, modifiers } = breakdownCommonModifiers(
         type,
         rawModifiers
       );
@@ -111,6 +121,7 @@ export const tokenizeSentence = (sentence: string) => {
         type,
         tags,
         word,
+        questionable,
         ...getExtraProps(type, modifiers),
       } as Token;
 
@@ -126,6 +137,7 @@ export const tokenizeSentence = (sentence: string) => {
         type: "literal",
         value: stringToken,
         tags: [],
+        questionable: false,
       };
     }
 

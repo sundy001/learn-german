@@ -23,7 +23,7 @@ export const useQuestion = (options?: {
     const noun = getRandomNoun(nounTag);
     const article = getRandomArticleType();
     const theCase = targetCase ? targetCase : getRandomCase();
-    const answer = findArticleFrom(article, theCase, noun.gender)?.word;
+    const answer = findArticleFrom(article, theCase, noun.gender)?.spell;
 
     setNoun(noun);
     setArticleType(article);

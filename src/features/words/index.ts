@@ -6,7 +6,9 @@ export {
   getRandomVerb,
   getRandomAdjective,
   getRandomPronouns,
+  getRandomPreposition,
 } from "./getRandomWord";
-export { CASES_NAMES } from "./cosntants/CaseNames";
-export { ARTICLE_WORDS_MAP } from "./cosntants/Articles";
-export { ADJECTIVES } from "./cosntants/Adjectives";
+export { CASES_NAMES } from "./constants/CaseNames";
+export { ARTICLE_WORDS_MAP } from "./constants/Articles";
+export { ADJECTIVES } from "./constants/Adjectives";
+export { getConjugationVerb } from "./verb";

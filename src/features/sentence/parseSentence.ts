@@ -1,18 +1,29 @@
 import {
   findArticleFrom,
+  getConjugationVerb,
   getRandomAdjective,
   getRandomNoun,
+  getRandomPreposition,
   getRandomPronouns,
   getRandomVerb,
 } from "@/features/words";
-import { ArticleType, PronounsType, Word } from "@/types";
+import { ArticleType, BaseWord, PronounType, Tenses, Word } from "@/types";
+import { getRandomValue } from "@/util/getRandomEnum";
 
 import { tokenizeSentence } from "./tokenizeSentence";
-import { NounToken, PronounToken, SentenceTemplate, Token } from "./type";
+import {
+  NounToken,
+  PronounToken,
+  SentenceTemplate,
+  SentenceWord,
+  Token,
+} from "./type";
 import { capitalizeFirstLetter } from "./util";
 
 export const parseSentence = (sentence: SentenceTemplate) => {
   const { tokens, tokenMap } = tokenizeSentence(sentence.sentence);
+
+  console.debug(tokens);
 
   const getKeyword = <T>(
     id: number,
@@ -36,33 +47,43 @@ export const parseSentence = (sentence: SentenceTemplate) => {
     return keyword as T;
   };
 
-  const result: string[] = [];
+  const words: SentenceWord[] = [];
+  const questionIndex: number[] = [];
   tokens.forEach((keyword) => {
-    let resultWord: Word;
+    let word: SentenceWord["word"];
+    let spell: string | undefined;
+
+    if (keyword.questionable) {
+      questionIndex.push(keyword.index);
+    }
 
     if (keyword.type === "noun") {
-      const noun = getRandomNoun(keyword.tags);
+      let noun = keyword.word;
       if (!noun) {
-        throw new Error("No noun found for tags: " + keyword.tags);
+        noun = getRandomNoun(keyword.tags);
+
+        if (!noun) {
+          throw new Error("No noun found for tags: " + keyword.tags);
+        }
       }
 
-      resultWord = noun;
-      result[keyword.index] = noun.word;
+      word = noun;
     } else if (keyword.type === "adj") {
       const adj = getRandomAdjective(keyword.tags);
 
-      resultWord = adj;
-      result[keyword.index] = adj.word;
+      word = adj;
     } else if (keyword.type === "article") {
       const nounKeyword = getKeyword<NounToken>(
         keyword.relatedNounIndex,
         "noun"
       );
 
+      const availableArticleTypes = keyword.articleTypes
+        ? keyword.articleTypes
+        : [ArticleType.Definite, ArticleType.Indefinite];
+
       const article = findArticleFrom(
-        keyword.articleTypes
-          ? keyword.articleTypes
-          : [ArticleType.Definite, ArticleType.Indefinite],
+        getRandomValue(availableArticleTypes),
         keyword.case,
         nounKeyword.word!.gender
       );
@@ -71,16 +92,14 @@ export const parseSentence = (sentence: SentenceTemplate) => {
         throw new Error(`No article found for ${keyword.id}`);
       }
 
-      resultWord = article;
-      result[keyword.index] = article.word;
+      word = article;
     } else if (keyword.type === "pronoun") {
       const pronoun = getRandomPronouns();
-      resultWord = pronoun;
-      result[keyword.index] = pronoun.word;
+      word = pronoun;
     } else if (keyword.type === "verb") {
-      let word = keyword.word;
-      if (!word) {
-        word = getRandomVerb(keyword.tags);
+      let verb = keyword.word;
+      if (!verb) {
+        verb = getRandomVerb(keyword.tags);
       }
 
       const nounKeyword = getKeyword<PronounToken | NounToken>(
@@ -90,19 +109,40 @@ export const parseSentence = (sentence: SentenceTemplate) => {
       const nounType =
         nounKeyword.type === "pronoun"
           ? nounKeyword.word!.type
-          : PronounsType.er;
-      result[keyword.index] = word.conjugation.present![nounType]!;
-      resultWord = word;
+          : PronounType.er;
+
+      word = verb;
+      spell = getConjugationVerb(verb, Tenses.Present, nounType);
+    } else if (keyword.type === "preposition") {
+      let noun = keyword.word;
+      if (!noun) {
+        noun = getRandomPreposition(keyword.tags);
+
+        if (!noun) {
+          throw new Error("No noun found for tags: " + keyword.tags);
+        }
+      }
+
+      word = noun;
     } else if (keyword.type === "literal") {
-      result[keyword.index] = keyword.value;
-      resultWord = { word: keyword.value, tags: [] };
+      word = { spell: keyword.value, tags: [] };
     } else {
       throw new Error(`Invalid keyword type: ${(keyword as any).type}`);
     }
 
-    keyword.word = resultWord;
+    if (!spell) {
+      spell = word.spell;
+    }
+
+    keyword.word = word;
+    words[keyword.index] = { spell, type: keyword.type, word } as SentenceWord;
   });
 
-  result[0] = capitalizeFirstLetter(result[0]);
-  return result.join(" ");
+  words[0].spell = capitalizeFirstLetter(words[0].spell);
+
+  return {
+    words,
+    questionIndex,
+  };
 };
+``;

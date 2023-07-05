@@ -1,20 +1,22 @@
-import { Adjective, Noun, Pronoun, Verb, Word } from "@/types";
+import { Adjective, BaseWord, Noun, Preposition, Pronoun, Verb } from "@/types";
+import { getRandomValue } from "@/util/getRandomEnum";
 
-import { Verbs } from "./Verbs";
-import { ADJECTIVES } from "./cosntants/Adjectives";
-import { NOUNS } from "./cosntants/Nouns";
-import { PRONOUNS } from "./cosntants/Pronouns";
+import { ADJECTIVES } from "./constants/Adjectives";
+import { NOUNS } from "./constants/Nouns";
+import { PREPOSITIONS } from "./constants/Prepositions";
+import { PRONOUNS } from "./constants/Pronouns";
+import { Verbs } from "./constants/Verbs";
 
 // get words by tag
-const getWordsByTag = (words: Word[], tag: string[] | string) => {
+const getWordsByTag = (words: BaseWord[], tag: string[] | string) => {
   const tagSet = new Set(typeof tag === "string" ? [tag] : tag);
   return words.filter(({ tags }) => tags.some((tag) => tagSet.has(tag)));
 };
 
-const getRandomWord = (words: Word[], tag?: string[] | string) => {
-  const nouns =
+const getRandomWord = (words: BaseWord[], tag?: string[] | string) => {
+  const theWords =
     tag === undefined || tag?.length === 0 ? words : getWordsByTag(words, tag);
-  return nouns[Math.floor(Math.random() * nouns.length)];
+  return getRandomValue(theWords);
 };
 
 export const getRandomNoun = (tag?: string[] | string) => {
@@ -31,4 +33,8 @@ export const getRandomAdjective = (tag?: string[] | string) => {
 
 export const getRandomPronouns = () => {
   return getRandomWord(PRONOUNS) as Pronoun;
+};
+
+export const getRandomPreposition = (tag?: string[] | string) => {
+  return getRandomWord(PREPOSITIONS, tag) as Preposition;
 };

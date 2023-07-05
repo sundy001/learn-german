@@ -13,6 +13,41 @@
     font-size: 14px;
     background: var(--bg-base);
   }
+
+  [data-popper-arrow] {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  [data-popper-arrow]:after,
+  [data-popper-arrow]:before {
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  [data-popper-arrow],
+  [data-popper-arrow]:before {
+    background: inherit;
+    position: absolute;
+    height: 8px;
+    width: 8px;
+  }
+
+  [role="tooltip"] > [data-popper-arrow]:before {
+    border-color: #e5e7eb;
+    border-style: solid;
+  }
+
+  [role="tooltip"] > [data-popper-arrow]:after {
+    border-color: #e5e7eb;
+    border-style: solid;
+  }
+
+  [data-popper-arrow]:after {
+    background: inherit;
+    position: absolute;
+    height: 9px;
+    width: 9px;
+  }
 }
 
 @layer components {

@@ -1,11 +1,11 @@
-import { Adjective, Noun, Verb, Word } from "@/types";
+import { Adjective, BaseWord, Noun, Verb } from "@/types";
 
-import { Verbs } from "./Verbs";
-import { ADJECTIVES } from "./cosntants/Adjectives";
-import { NOUNS } from "./cosntants/Nouns";
+import { ADJECTIVES } from "./constants/Adjectives";
+import { NOUNS } from "./constants/Nouns";
+import { Verbs } from "./constants/Verbs";
 
-const findWord = (words: Word[], word: string) => {
-  return words.find(({ word: w }) => w === word);
+const findWord = (words: BaseWord[], word: string) => {
+  return words.find(({ spell: w }) => w === word);
 };
 
 export const findNoun = (word: string) => {

@@ -57,7 +57,7 @@ export default function NumberReading() {
             "animate-green-offset": textInputColor === TextInputColor.Green,
           })}
         >
-          <div>{questionNumber.word}</div>
+          <div>{questionNumber.spell}</div>
           <TextInput
             errorMessageLine={false}
             color={textInputColor}

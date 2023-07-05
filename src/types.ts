@@ -1,3 +1,5 @@
+import { NounSentenceWord } from "./features/sentence/type";
+
 export enum Case {
   Nominativ = "Nominativ",
   Akkusativ = "Akkusativ",
@@ -31,9 +33,9 @@ export enum Level {
   B2 = "B2",
 }
 
-export type Word = { word: string; tags: string[] };
+export type BaseWord = { spell: string; tags: string[] };
 
-export enum PronounsType {
+export enum PronounType {
   ich = "ich",
   du = "du",
   er = "er",
@@ -42,8 +44,8 @@ export enum PronounsType {
   Sie = "Sie",
 }
 
-export type Pronoun = Word & {
-  type: PronounsType;
+export type Pronoun = BaseWord & {
+  type: PronounType;
 };
 
 export enum VerbType {
@@ -52,36 +54,44 @@ export enum VerbType {
   Reflexive = "Reflexive",
 }
 
-export type Verb = Word & {
+export enum Tenses {
+  Present = "Present",
+}
+
+export type Verb = BaseWord & {
   verbType: VerbType[];
   level: Level;
   conjugation: {
     type: ConjugationType;
-    present?: {
-      [PronounsType.ich]?: string;
-      [PronounsType.du]?: string;
-      [PronounsType.er]?: string;
-      [PronounsType.wir]?: string;
-      [PronounsType.ihr]?: string;
-      [PronounsType.Sie]?: string;
+    [Tenses.Present]?: {
+      [PronounType.ich]?: string;
+      [PronounType.du]?: string;
+      [PronounType.er]?: string;
+      [PronounType.wir]?: string;
+      [PronounType.ihr]?: string;
+      [PronounType.Sie]?: string;
     };
   };
 };
 
-export type Article = Word & {
+export type Article = BaseWord & {
   type: ArticleType;
   case: Case;
   gender: Gender;
 };
 
-export type Noun = Word & {
+export type Noun = BaseWord & {
   gender: Gender;
   plural: string | null;
   postfix: string | null;
 };
 
-export type Adjective = Word;
+export type Adjective = BaseWord;
 
-export type Number = Word & {
+export type Preposition = BaseWord;
+
+export type Number = BaseWord & {
   number: number;
 };
+
+export type Word = Verb | Noun | Adjective | Pronoun | Article | Preposition;

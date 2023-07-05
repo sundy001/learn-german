@@ -1,16 +1,18 @@
 "use client";
 
 import classNames from "classnames";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 
-import { Noun } from "@/components/Noun";
 import { TextInput, TextInputColor } from "@/components/TextInput";
-import { parseSentence } from "@/features/sentence";
-import { SENTENCES_TEMPLATES } from "@/features/sentence/Sentence";
+import {
+  SENTENCE_TEMPLATES,
+  Sentence,
+  SentenceType,
+  parseSentence,
+} from "@/features/sentence";
+import { ArticleSentenceWord } from "@/features/sentence/type";
 import { ARTICLE_WORDS_MAP } from "@/features/words";
-import { Case } from "@/types";
-
-import { useQuestion } from "../useQuestion";
+import { getRandomValue } from "@/util/getRandomEnum";
 
 export default function ArticleInSentence() {
   const [input, setInput] = useState("");
@@ -18,32 +20,44 @@ export default function ArticleInSentence() {
   const [textInputColor, setTextInputColor] = useState<
     TextInputColor | undefined
   >(undefined);
-  const question = useQuestion({
-    nounTag: ["animal"],
-    targetCase: Case.Nominativ,
-  });
 
-  const sentence = parseSentence({
-    sentence: SENTENCES_TEMPLATES[2].sentence,
-    tags: [],
-  });
+  const [answer, setAnswer] = useState<ArticleSentenceWord | null>(null);
+  const [question, setQuestion] = useState<SentenceType | null>(null);
 
-  console.debug(sentence);
+  const nextQuestion = () => {
+    const sentence = parseSentence({
+      sentence: getRandomValue(SENTENCE_TEMPLATES).sentence,
+      // sentence: SENTENCE_TEMPLATES[11].sentence,
+      tags: [],
+    });
+
+    const questionIndex = sentence.questionIndex[0];
+    if (questionIndex === undefined) {
+      throw new Error(`No question index`);
+    }
+
+    setAnswer(sentence.words[questionIndex] as ArticleSentenceWord);
+    setQuestion(sentence);
+  };
+
+  useEffect(() => {
+    nextQuestion();
+  }, []);
 
   if (!question) {
     return null;
   }
 
-  const { noun, articleType, answer, nextQuestion } = question;
-
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
     const value = input.trim().toLocaleLowerCase();
+    const cleanAnswer = answer?.spell.toLocaleLowerCase();
 
-    if (answer === value) {
+    if (cleanAnswer === value) {
       nextQuestion();
       setInput("");
       setTextInputColor(TextInputColor.Green);
+      // textToSpeech(getSentenceQuestionString(question));
       setTimeout(() => {
         setTextInputColor(undefined);
       }, 500);
@@ -65,8 +79,8 @@ export default function ArticleInSentence() {
             "animate-green-offset": textInputColor === TextInputColor.Green,
           })}
         >
-          <div>{ARTICLE_WORDS_MAP[articleType]}</div>
-          ______ <Noun noun={noun} /> ist schön.
+          <div>{ARTICLE_WORDS_MAP[answer?.word.type!]}</div>
+          <Sentence sentence={question} />
           <TextInput
             errorMessageLine={false}
             color={textInputColor}
